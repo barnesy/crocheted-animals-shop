@@ -1,0 +1,175 @@
+# Crocheted Animals Shop
+
+A simple, modern website for taking orders for handmade crocheted animals.
+
+## Overview
+
+This project is a lightweight, fast, and maintainable e-commerce solution built with the Jamstack architecture. It's designed to be easy to update, cost-free to host, and provide a delightful user experience for customers browsing and ordering handmade crocheted animals.
+
+## Tech Stack
+
+- **Frontend Framework**: [Astro](https://astro.build/) - Fast, content-focused, minimal JavaScript
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- **Content Management**: Markdown/JSON files (git-based, simple to update)
+- **Forms**: Netlify Forms or Formspree (email notifications)
+- **Hosting**: Netlify or Vercel (free tier with automatic deployments)
+- **Payments**: Manual invoicing initially, Stripe integration for Phase 2
+
+## Why This Stack?
+
+- ✅ Zero hosting costs (free hosting tiers)
+- ✅ No database needed initially
+- ✅ Excellent performance (static site generation)
+- ✅ Easy content updates (edit markdown files, commit, auto-deploy)
+- ✅ Mobile-responsive by design
+- ✅ Scalable (can add database, payments, admin panel later)
+- ✅ SEO-friendly
+- ✅ Low maintenance
+
+## Site Structure
+
+```
+/
+├── Home
+│   ├── Hero section with featured animal
+│   ├── About snippet
+│   └── Call-to-action buttons
+├── Gallery
+│   ├── Grid of all available animals
+│   ├── Filters (animal type, price range)
+│   └── Search functionality
+├── Product Details
+│   ├── Image gallery
+│   ├── Description & specifications
+│   ├── Pricing
+│   └── Add to order form
+├── Custom Orders
+│   └── Form for custom requests
+├── About
+│   ├── Story & craftsmanship
+│   └── Process overview
+└── Contact
+    └── General inquiries form
+```
+
+## MVP Features (Phase 1)
+
+1. **Product Gallery**
+   - Display all crocheted animals with photos
+   - Filter by category (bears, bunnies, dinosaurs, etc.)
+   - Filter by price range
+   - Responsive grid layout
+
+2. **Product Details**
+   - High-quality images (multiple angles)
+   - Detailed descriptions
+   - Dimensions and materials
+   - Care instructions
+
+3. **Order Form**
+   - Product selection with quantity
+   - Customer information (name, email, phone)
+   - Shipping address
+   - Special instructions field
+   - Email confirmation to customer
+   - Email notification to seller
+
+4. **Custom Order Requests**
+   - Form for special requests
+   - Description field
+   - Color preferences
+   - Size preferences
+
+5. **Responsive Design**
+   - Mobile-first approach
+   - Touch-friendly interface
+   - Fast loading times
+
+6. **Image Optimization**
+   - Automatic compression
+   - Lazy loading
+   - Responsive images
+
+## Phase 2 Enhancements
+
+- **Payment Integration**: Stripe for online payments
+- **Order Tracking**: Customer portal to check order status
+- **Admin Dashboard**: Manage orders, update inventory
+- **Customer Accounts**: Save addresses, view order history
+- **Inventory Management**: Track available items
+- **Photo Upload**: Allow custom order photos from customers
+- **Email Automation**: Order confirmations, shipping notifications
+- **Analytics**: Track popular items, conversion rates
+
+## Data Model
+
+### Product
+```json
+{
+  "id": "unique-id",
+  "name": "Cuddly Bear",
+  "slug": "cuddly-bear",
+  "description": "Adorable handmade crocheted bear...",
+  "price": 45.00,
+  "images": [
+    "/images/products/bear-1.jpg",
+    "/images/products/bear-2.jpg"
+  ],
+  "category": "bears",
+  "materials": ["100% cotton yarn", "polyester filling", "safety eyes"],
+  "dimensions": {
+    "height": "12 inches",
+    "width": "8 inches"
+  },
+  "customizable": true,
+  "available": true,
+  "featured": false,
+  "createdAt": "2025-01-15"
+}
+```
+
+### Order (Future - Phase 2)
+```json
+{
+  "id": "order-123",
+  "timestamp": "2025-01-20T10:30:00Z",
+  "customer": {
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "phone": "555-1234"
+  },
+  "shipping": {
+    "address": "123 Main St",
+    "city": "Springfield",
+    "state": "IL",
+    "zip": "62701",
+    "country": "USA"
+  },
+  "items": [
+    {
+      "productId": "cuddly-bear",
+      "quantity": 2,
+      "price": 45.00
+    }
+  ],
+  "total": 90.00,
+  "specialInstructions": "Please use blue yarn for one bear",
+  "status": "pending"
+}
+```
+
+## Getting Started
+
+(Setup instructions will be added once project is initialized)
+
+## Deployment
+
+(Deployment instructions will be added once project is initialized)
+
+## License
+
+MIT
+
+## Contact
+
+For questions or custom order inquiries, please use the contact form on the website.
