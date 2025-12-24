@@ -1,0 +1,43 @@
+---
+interface Props {
+  name: string;
+  price: number;
+  image: string;
+  slug: string;
+  category: string;
+  available?: boolean;
+}
+
+const { name, price, image, slug, category, available = true } = Astro.props;
+---
+
+<article class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+  <a href={`/products/${slug}`} class="block">
+    <div class="aspect-square overflow-hidden bg-stone-100">
+      <img
+        src={image}
+        alt={name}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+    </div>
+    <div class="p-4">
+      <div class="text-xs uppercase tracking-wide text-stone-500 mb-1">
+        {category}
+      </div>
+      <h3 class="font-semibold text-lg text-stone-800 mb-2 group-hover:text-rose-600 transition-colors">
+        {name}
+      </h3>
+      <div class="flex items-center justify-between">
+        <span class="text-xl font-bold text-rose-600">
+          ${price.toFixed(2)}
+        </span>
+        {available ? (
+          <span class="text-xs text-green-600 font-medium">Available</span>
+        ) : (
+          <span class="text-xs text-stone-400 font-medium">Sold Out</span>
+        )}
+      </div>
+    </div>
+  </a>
+</article>

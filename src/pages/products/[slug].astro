@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map(product => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+---
+
+<BaseLayout
+  title={`${product.data.name} - Crocheted Animals`}
+  description={`${product.data.name} - Handcrafted crocheted animal. ${product.data.price} - Made with ${product.data.materials.join(', ')}.`}
+>
+  <article class="py-12 md:py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Product Images -->
+          <div>
+            <div class="sticky top-24">
+              <div class="aspect-square bg-stone-100 rounded-lg overflow-hidden mb-4">
+                <img
+                  src={product.data.images[0]}
+                  alt={product.data.name}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              {product.data.images.length > 1 && (
+                <div class="grid grid-cols-4 gap-2">
+                  {product.data.images.slice(1).map((image) => (
+                    <div class="aspect-square bg-stone-100 rounded overflow-hidden">
+                      <img
+                        src={image}
+                        alt={product.data.name}
+                        class="w-full h-full object-cover cursor-pointer hover:opacity-75 transition-opacity"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div>
+            <div class="mb-6">
+              <div class="text-sm uppercase tracking-wide text-stone-500 mb-2">
+                {product.data.category}
+              </div>
+              <h1 class="font-serif text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+                {product.data.name}
+              </h1>
+              <div class="flex items-center gap-4 mb-6">
+                <span class="text-3xl font-bold text-rose-600">
+                  ${product.data.price.toFixed(2)}
+                </span>
+                {product.data.available ? (
+                  <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+                    Available
+                  </span>
+                ) : (
+                  <span class="px-3 py-1 bg-stone-200 text-stone-600 text-sm font-medium rounded-full">
+                    Sold Out
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="prose prose-stone max-w-none mb-8">
+              <Content />
+            </div>
+
+            <!-- Specifications -->
+            <div class="border-t border-stone-200 pt-6 mb-8">
+              <h3 class="font-bold text-lg mb-4 text-stone-800">Specifications</h3>
+              <div class="space-y-3">
+                <div>
+                  <span class="font-medium text-stone-700">Dimensions:</span>
+                  <span class="text-stone-600 ml-2">
+                    {product.data.dimensions.height} tall, {product.data.dimensions.width} wide
+                  </span>
+                </div>
+                <div>
+                  <span class="font-medium text-stone-700">Materials:</span>
+                  <span class="text-stone-600 ml-2">
+                    {product.data.materials.join(', ')}
+                  </span>
+                </div>
+                <div>
+                  <span class="font-medium text-stone-700">Customizable:</span>
+                  <span class="text-stone-600 ml-2">
+                    {product.data.customizable ? 'Yes' : 'No'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="space-y-4">
+              {product.data.available ? (
+                <>
+                  <a
+                    href={`/order?product=${product.slug}`}
+                    class="block w-full bg-rose-600 text-white text-center px-8 py-4 rounded-lg font-semibold hover:bg-rose-700 transition-colors shadow-lg hover:shadow-xl"
+                  >
+                    Order This Item
+                  </a>
+                  {product.data.customizable && (
+                    <a
+                      href={`/custom-order?product=${product.slug}`}
+                      class="block w-full bg-white text-rose-600 border-2 border-rose-600 text-center px-8 py-4 rounded-lg font-semibold hover:bg-stone-50 transition-colors"
+                    >
+                      Request Custom Version
+                    </a>
+                  )}
+                </>
+              ) : (
+                <a
+                  href="/contact"
+                  class="block w-full bg-stone-200 text-stone-600 text-center px-8 py-4 rounded-lg font-semibold hover:bg-stone-300 transition-colors"
+                >
+                  Contact for Availability
+                </a>
+              )}
+            </div>
+
+            <!-- Additional Info -->
+            <div class="mt-8 p-6 bg-stone-50 rounded-lg">
+              <h4 class="font-bold text-stone-800 mb-3">Made to Order</h4>
+              <p class="text-sm text-stone-600 leading-relaxed">
+                Each {product.data.name} is handcrafted after your order is placed.
+                Please allow 1-2 weeks for creation plus shipping time. We'll keep you
+                updated on your order's progress!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back to Gallery -->
+      <div class="max-w-6xl mx-auto mt-12">
+        <a
+          href="/gallery"
+          class="inline-flex items-center text-rose-600 hover:text-rose-700 font-medium"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back to Gallery
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

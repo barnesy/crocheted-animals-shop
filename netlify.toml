@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/success"
+  to = "/success"
+  status = 200
+
+# Form submission redirects
+[[redirects]]
+  from = "/order"
+  to = "/success?type=order"
+  status = 200
+  force = false
+  conditions = {Role = ["form-submission"]}
+
+[[redirects]]
+  from = "/custom-order"
+  to = "/success?type=custom"
+  status = 200
+  force = false
+  conditions = {Role = ["form-submission"]}
+
+[[redirects]]
+  from = "/contact"
+  to = "/success?type=contact"
+  status = 200
+  force = false
+  conditions = {Role = ["form-submission"]}
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"

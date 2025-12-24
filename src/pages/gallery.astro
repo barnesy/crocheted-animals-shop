@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+const allProducts = await getCollection('products');
+const categories = [...new Set(allProducts.map(p => p.data.category))];
+---
+
+<BaseLayout
+  title="Gallery - Crocheted Animals"
+  description="Browse our complete collection of handcrafted crocheted animals. Find the perfect companion from bears, bunnies, dinosaurs, and more."
+>
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-stone-800 mb-4">
+          Our Gallery
+        </h1>
+        <p class="text-lg text-stone-600 max-w-2xl mx-auto">
+          Explore our complete collection of lovingly handcrafted companions. Each piece is made to order with premium materials.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div class="mb-8 flex flex-wrap gap-3 justify-center" id="filter-buttons">
+        <button
+          data-category="all"
+          class="filter-btn px-6 py-2 rounded-full font-medium transition-colors bg-rose-600 text-white"
+        >
+          All
+        </button>
+        {categories.map((category) => (
+          <button
+            data-category={category}
+            class="filter-btn px-6 py-2 rounded-full font-medium transition-colors bg-white text-stone-700 border-2 border-stone-200 hover:border-rose-600 hover:text-rose-600"
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="products-grid">
+        {allProducts.map((product) => (
+          <div class="product-item" data-category={product.data.category}>
+            <ProductCard
+              name={product.data.name}
+              price={product.data.price}
+              image={product.data.images[0]}
+              slug={product.slug}
+              category={product.data.category}
+              available={product.data.available}
+            />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-12">
+        <p class="text-stone-500 text-lg">No products found in this category.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Client-side filtering
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const productItems = document.querySelectorAll('.product-item');
+    const emptyState = document.getElementById('empty-state');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+
+        // Update active button styling
+        filterButtons.forEach(btn => {
+          btn.classList.remove('bg-rose-600', 'text-white');
+          btn.classList.add('bg-white', 'text-stone-700', 'border-2', 'border-stone-200');
+        });
+        button.classList.add('bg-rose-600', 'text-white');
+        button.classList.remove('bg-white', 'text-stone-700', 'border-2', 'border-stone-200');
+
+        // Filter products
+        let visibleCount = 0;
+        productItems.forEach(item => {
+          const itemCategory = item.getAttribute('data-category');
+          if (category === 'all' || itemCategory === category) {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // Show/hide empty state
+        if (visibleCount === 0) {
+          emptyState?.classList.remove('hidden');
+        } else {
+          emptyState?.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

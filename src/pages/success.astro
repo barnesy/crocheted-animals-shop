@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const url = new URL(Astro.request.url);
+const type = url.searchParams.get('type') || 'order';
+
+const messages = {
+  order: {
+    title: 'Order Received!',
+    message: 'Thank you for your order! We\'ve received your request and will send you an email shortly with payment instructions and next steps.',
+    icon: '🎉'
+  },
+  custom: {
+    title: 'Custom Request Received!',
+    message: 'Thank you for your custom order request! We\'ll review your specifications and get back to you within 1-2 business days with a proposal and pricing.',
+    icon: '✨'
+  },
+  contact: {
+    title: 'Message Sent!',
+    message: 'Thank you for reaching out! We\'ve received your message and will respond within 1-2 business days.',
+    icon: '📧'
+  }
+};
+
+const content = messages[type] || messages.order;
+---
+
+<BaseLayout
+  title={`${content.title} - Crocheted Animals`}
+  description="Thank you for your submission"
+>
+  <section class="py-16 md:py-24 min-h-[60vh] flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <!-- Success Icon -->
+        <div class="text-8xl mb-6">
+          {content.icon}
+        </div>
+
+        <!-- Success Message -->
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-stone-800 mb-4">
+          {content.title}
+        </h1>
+        <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+          {content.message}
+        </p>
+
+        <!-- What's Next -->
+        <div class="bg-stone-50 rounded-lg p-6 mb-8 text-left">
+          <h2 class="font-bold text-xl text-stone-800 mb-4">What Happens Next?</h2>
+          <ol class="space-y-3 text-stone-600">
+            {type === 'order' && (
+              <>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">1.</span>
+                  <span>You'll receive an email confirmation with all your order details.</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">2.</span>
+                  <span>We'll send you payment instructions (PayPal, Venmo, or Zelle).</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">3.</span>
+                  <span>Once payment is received, we'll begin crafting your companion!</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">4.</span>
+                  <span>We'll keep you updated with progress photos and ship within 1-2 weeks.</span>
+                </li>
+              </>
+            )}
+            {type === 'custom' && (
+              <>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">1.</span>
+                  <span>We'll review your custom request and design specifications.</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">2.</span>
+                  <span>You'll receive a detailed proposal with pricing and timeline.</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">3.</span>
+                  <span>Once approved, we'll begin creating your unique design!</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">4.</span>
+                  <span>We'll send progress updates throughout the creation process.</span>
+                </li>
+              </>
+            )}
+            {type === 'contact' && (
+              <>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">1.</span>
+                  <span>We'll review your message carefully.</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">2.</span>
+                  <span>You'll receive a personalized response within 1-2 business days.</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="font-bold text-rose-600">3.</span>
+                  <span>We're here to help with any questions or concerns you have!</span>
+                </li>
+              </>
+            )}
+          </ol>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="/"
+            class="inline-block bg-rose-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-rose-700 transition-colors shadow-lg"
+          >
+            Return Home
+          </a>
+          <a
+            href="/gallery"
+            class="inline-block bg-white text-rose-600 border-2 border-rose-600 px-8 py-4 rounded-lg font-semibold hover:bg-stone-50 transition-colors"
+          >
+            Browse Gallery
+          </a>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="mt-8 text-sm text-stone-500">
+          <p>
+            Questions? <a href="/contact" class="text-rose-600 hover:underline">Contact us</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -160,11 +160,120 @@ This project is a lightweight, fast, and maintainable e-commerce solution built 
 
 ## Getting Started
 
-(Setup instructions will be added once project is initialized)
+### Prerequisites
+- Node.js 18+ and npm
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/barnesy/crocheted-animals-shop.git
+cd crocheted-animals-shop
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open your browser and visit `http://localhost:4321`
+
+### Adding Products
+
+Products are stored as Markdown files in `src/content/products/`. To add a new product:
+
+1. Create a new `.md` file in `src/content/products/`
+2. Add the frontmatter with product details:
+
+```markdown
+---
+name: "Your Animal Name"
+price: 45.00
+category: "Category Name"
+featured: false
+available: true
+images:
+  - /images/products/your-animal-1.jpg
+  - /images/products/your-animal-2.jpg
+materials:
+  - Material 1
+  - Material 2
+dimensions:
+  height: "12 inches"
+  width: "8 inches"
+customizable: true
+createdAt: "2025-01-15"
+---
+
+Write your product description here in Markdown format.
+```
+
+3. Add product images to `public/images/products/`
+4. Commit and push - the site will auto-deploy!
+
+### Replacing Placeholder Images
+
+The site currently uses placeholder SVG images. To add real product photos:
+
+1. Take high-quality photos of your crocheted animals (multiple angles recommended)
+2. Optimize images for web (recommended size: 800x800px, under 200KB each)
+3. Save images to `public/images/products/` with matching filenames
+4. Images will automatically appear on the site
+
+### Customizing Content
+
+- **About Page**: Edit `src/pages/about.astro`
+- **Contact Info**: Edit `src/layouts/BaseLayout.astro` (footer section)
+- **Colors/Styling**: Edit `src/styles/global.css` or Tailwind classes
+- **Site Title**: Edit `src/layouts/BaseLayout.astro`
 
 ## Deployment
 
-(Deployment instructions will be added once project is initialized)
+### Deploy to Netlify (Recommended)
+
+1. Push your code to GitHub
+2. Sign up for a free account at [Netlify](https://netlify.com)
+3. Click "Add new site" → "Import an existing project"
+4. Connect your GitHub repository
+5. Netlify will auto-detect Astro settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+6. Click "Deploy site"
+
+Your site will be live in minutes! Netlify will:
+- Auto-deploy on every git push
+- Handle form submissions via Netlify Forms
+- Provide a free `.netlify.app` domain
+- Support custom domains (free)
+
+### Configure Form Notifications
+
+After deploying to Netlify:
+
+1. Go to Site Settings → Forms
+2. Set up form notifications to receive emails when customers submit orders
+3. Configure notification email address
+4. Enable spam filtering
+
+### Custom Domain (Optional)
+
+1. In Netlify dashboard: Domain settings → Add custom domain
+2. Follow DNS configuration instructions
+3. Free SSL certificate included automatically
+
+## Project Commands
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run preview      # Preview production build locally
+npm run astro --help # Show Astro CLI help
+```
 
 ## License
 
